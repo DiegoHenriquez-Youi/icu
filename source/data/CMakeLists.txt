@@ -85,6 +85,8 @@ if(APPLE)
   set(GENCCODE_ASSEMBLY_TYPE -a gcc-darwin)
 elseif(UNIX)
   set(GENCCODE_ASSEMBLY_TYPE -a gcc)
+elseif(PS4)
+  set(GENCCODE_ASSEMBLY_TYPE rcs orbis-ar)
 else()
   set(GENCCODE_ASSEMBLY_TYPE "")
 endif()
@@ -106,6 +108,20 @@ endif()
 
 # We only interested in generated assembler file.
 # Variables like compiler/ranlib/linker/... set to dummy echo commands
+
+message("
+    ${ICU_PKGDATA_EXECUTABLE}
+    --bldopt ${icupkg_in}
+    --copyright
+    --sourcedir ${extracted_data_dir}
+    --destdir ${assembler_dir}
+    --entrypoint icudt${PROJECT_VERSION_MAJOR}
+    --tempdir ${assembler_temp_dir}
+    --name ${asm_name}
+    -m ${library_type}
+    --revision ${PROJECT_VERSION}
+    --libname icudata
+    ${data_list}")
 add_custom_command(
     OUTPUT ${asm_file}
     COMMAND
@@ -120,6 +136,7 @@ add_custom_command(
         -m ${library_type}
         --revision ${PROJECT_VERSION}
         --libname icudata
+		-v
         ${data_list}
     DEPENDS ${data_list} ${ICU_PKGDATA_EXECUTABLE} ${icupkg_in}
     COMMENT "Generating ${asm_file} assembler file"

@@ -9,16 +9,20 @@ HunterGate(
     SHA1 "758836c69d9ecb7a773b8e4b64e25d0fa4e76582"
 )
 
-project(ICU VERSION 55.1 LANGUAGES C CXX) 
+if(PS4)
+  set(CMAKE_SYSTEM_NAME "ORBIS")
+endif()
+
+project(ICU VERSION 55.1 LANGUAGES C CXX ASM) 
 
 # The PS4 compiler does not properly get detected as supporting assembly. Disable that language requirement when building for PS4 (and using an external data archive).
-if (NOT PS4 OR NOT ICU_USE_EXTERNAL_DATA_ARCHIVE)
+if (NOT ICU_USE_EXTERNAL_DATA_ARCHIVE)
     enable_language(ASM)
 endif()
 
 string(COMPARE EQUAL "${CMAKE_SYSTEM_NAME}" "WindowsStore" ICU_WINDOWS_STORE)
 
-if(IOS OR ANDROID OR ICU_WINDOWS_STORE OR TVOS OR TIZEN_NACL OR PS4)
+if(IOS OR ANDROID OR ICU_WINDOWS_STORE OR TVOS OR TIZEN_NACL)
   set(default OFF)
 else()
   set(default ON)
@@ -30,7 +34,7 @@ if(MSVC)
   add_definitions(-DU_ATTRIBUTE_DEPRECATED=)
 endif()
 
-if(TIZEN_NACL OR PS4)
+if(TIZEN_NACL)
   set(ICU_NO_DYLOAD ON)
 endif()
 

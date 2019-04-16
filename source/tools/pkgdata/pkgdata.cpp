@@ -525,12 +525,15 @@ normal_command_mode:
         cmd = (char *)command;
     }
 
+#ifndef __ORBIS__
     printf("pkgdata: %s\n", cmd);
     int result = system(cmd);
     if (result != 0) {
         fprintf(stderr, "-- return status = %d\n", result);
     }
-
+#else
+    int result = 0;
+#endif
     if (cmd != cmdBuffer && cmd != command) {
         uprv_free(cmd);
     }

@@ -158,6 +158,8 @@ typedef size_t uintptr_t;
 
 #ifdef U_HAVE_POPEN
     /* Use the predefined value. */
+#elif __ORBIS__
+#   define U_HAVE_POPEN 0
 #elif U_PLATFORM_USES_ONLY_WIN32_API
 #   define U_HAVE_POPEN 0
 #elif U_PLATFORM == U_PF_OS400

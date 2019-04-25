@@ -36,7 +36,6 @@
 #endif
 #endif
 
-#define USING_CYGWIN
 #if U_PLATFORM == U_PF_CYGWIN || defined(CYGWINMSVC)
 #define USING_CYGWIN
 #endif
